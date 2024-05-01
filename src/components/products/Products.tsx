@@ -1,6 +1,7 @@
-import Product, {IProductProps} from "../product/Product";
+import Product from "../product/Product";
 
 import {FC, useEffect, useState} from "react";
+import {IProductProps} from "../../interfaces/IProductProps";
 
 const Products: FC = () => {
     const [products, setProducts] = useState<IProductProps[]>([])

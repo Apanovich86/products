@@ -1,19 +1,6 @@
 import {FC} from "react";
 import styles from "./Product.module.css";
-
-export interface IProductProps {
-    id: number,
-    title: string,
-    description: string,
-    price: number,
-    discountPercentage?: number,
-    rating: number,
-    stock?: number,
-    brand: string,
-    category: string,
-    thumbnail?: string,
-    images: string[]
-}
+import {IProductProps} from "../../interfaces/IProductProps";
 
 export type IProductTypeProps = IProductProps & { children?: React.ReactNode };
 const Product: FC<IProductTypeProps> = ({
