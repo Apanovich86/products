@@ -1,0 +1,8 @@
+.image {
+    border: 3px greenyellow solid;
+    border-radius: 5px;
+    width: 20%;
+    height: 137px;
+    margin: 10px;
+    background-size: cover;
+}
