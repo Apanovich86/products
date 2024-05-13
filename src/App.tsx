@@ -1,24 +1,12 @@
-import React, {useState} from 'react';
+import React from 'react';
 import './App.css';
-import {getPostsByUserId} from "./services/users.api.service";
-import {IPostModel} from "./models/IPostModel";
-import UsersComponent from "./components/users/Users";
-import PostsComponent from "./components/posts/PostsComponent";
-import Users from "./components/users/Users";
+import usePrevious from './CustomHooks'
 
 const App = () => {
-    const [posts, setPosts] = useState<IPostModel[]>([])
-
-    const lift = (userId: number) => {
-        getPostsByUserId(userId).then(({data: {posts}}) => {
-            setPosts(posts);
-        })
-    }
+    const usePreviousValue = usePrevious.usePrevious(100);
     return (
         <div>
-            <Users lift={lift}/>
-
-            <PostsComponent posts={posts}/>
+<div>{usePreviousValue}</div>
         </div>
     );
 };
