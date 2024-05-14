@@ -8,8 +8,11 @@ interface IFormProps {
 }
 
 const FormComponent: FC = () => {
-  let formObj = useForm<IFormProps>();
-   let {register, handleSubmit} = formObj;
+  let {
+      register,
+      handleSubmit,
+  formState:{errors}
+  }  = useForm<IFormProps>();
 
    const save = (formValues:IFormProps) => {
        console.log(formValues);
@@ -18,7 +21,18 @@ const FormComponent: FC = () => {
     return (
         <div>
             <form onSubmit={handleSubmit(save)}>
-                <input type="text" {...register('username')}/>
+                <input type="text"
+                       {...register('username',
+                       {required: {
+                               value: true,
+                               message: 'this field is required'
+                           },
+                       maxLength: {
+                           value:10,
+                           message: 'max length is 10'
+                       }
+                       })}/>
+                {errors.username && <span>{errors.username.message}</span>}
                 <input type="number" {...register('age')}/>
                 <input type="text" {...register('password')}/>
                 <button>save</button>
