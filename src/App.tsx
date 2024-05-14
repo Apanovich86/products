@@ -1,12 +1,13 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './App.css';
-import usePrevious from './CustomHooks'
+import FormComponent from "./components/FormComponent";
+
 
 const App = () => {
-    const usePreviousValue = usePrevious.usePrevious(100);
+
     return (
         <div>
-<div>{usePreviousValue}</div>
+            <FormComponent/>
         </div>
     );
 };
