@@ -1,44 +1,46 @@
-import {FC, FormEvent, useState} from "react";
-import {useForm} from "react-hook-form";
 
-interface IFormProps {
-    username: string;
-    age: number;
-    password: string;
+import React, {FC, useState} from 'react';
+import {useForm} from "react-hook-form";
+import {joiResolver} from "@hookform/resolvers/joi";
+import {postValidator} from "../validators/post.validator";
+import {IPostModel} from "../models/IPostModel";
+import {postService} from "../services/api.service";
+
+export interface IFormProps {
+    title: string,
+    body: string,
+    userId: number;
 }
 
 const FormComponent: FC = () => {
-  let {
-      register,
-      handleSubmit,
-  formState:{errors}
-  }  = useForm<IFormProps>();
+    let {register, handleSubmit, formState: {errors, isValid}}
+        = useForm<IFormProps>({mode: "all", resolver: joiResolver(postValidator)});
 
-   const save = (formValues:IFormProps) => {
-       console.log(formValues);
-   }
+    const [post, setPost] = useState<IPostModel | null>(null);
+
+
+    const save = (post: IFormProps) => {
+        postService
+            .savePost(post)
+            .then(value => setPost(value.data));
+    };
 
     return (
         <div>
             <form onSubmit={handleSubmit(save)}>
-                <input type="text"
-                       {...register('username',
-                       {required: {
-                               value: true,
-                               message: 'this field is required'
-                           },
-                       maxLength: {
-                           value:10,
-                           message: 'max length is 10'
-                       }
-                       })}/>
-                {errors.username && <span>{errors.username.message}</span>}
-                <input type="number" {...register('age')}/>
-                <input type="text" {...register('password')}/>
+                <input type="text"{...register('title')}/>
+                {errors.title && <span>{errors.title.message}</span>}
+                <br/>
+                <input type="text"  {...register('body')}/>
+                <br/>
+                <input type="number"  {...register('userId')}/>
+                <br/>
                 <button>save</button>
             </form>
-        </div>
-    )
-}
 
-export default FormComponent
+            {post && <h2> saved post {post.id} {post.title}</h2>}
+        </div>
+    );
+};
+
+export default FormComponent;
